@@ -18,29 +18,43 @@ class BankAccount():
     def __init__(self, firstName, lastName, email, password):
         '''creates a new instance of a bank account when a new account is created
         balance should be set to $0, id should be set to the next available id'''
-        #TO DO: set attributes here, store password as hashed (hashedPassword(password))
-        
-
-        #leave this here -- adds account to the "database"
+        self.firstName = firstName
+        self.lastName = lastName
+        self.email = email
+        #store password as hashed (hashPassword(password))
+        self.password = hashPassword(password)
+        self.balance = 0
+        self.id = BankAccount.acct_id
+        BankAccount.acct_id += 1
         BankAccount.accounts.append({"email": self.email, "user": self})
 
     def getAccountInfo(self):
-        '''displays all user info (except password)'''
-        #TO DO: complete function
+        '''displays all user info'''
+        print("Name: {} {}".format(self.firstName, self.lastName))
+        print("Email:", self.email)
+        print("Account ID:", self.id)
+        print("Current balance: ${}".format(self.balance))
         
     def getBalance(self):
-        '''displays the user's balance'''
-        #TO DO: complete function
+        ''''''
+        print("Available Balance: ${}".format(self.balance))
         
     def deposit(self):
-        '''deposits money into the user's account and displays new balance'''
-        #TO DO: complete function
+        '''deposits money into the user's account'''
+        amount = float(input("Enter amount to be deposited: $")) 
+        self.balance += amount 
+        print("Amount Deposited: ${}".format(amount))
+        print("Your new balance is ${}".format(self.balance))
 
     def withdraw(self):
-        '''withdraws money from the user's account and displays new balance,
-        should check if the balance is enough to withdraw'''
-        #TO DO: complete function
-        
+        '''withdraws money from the user's account, should check if the balance is enough to withdraw'''
+        amount = float(input("Enter amount to be withdrawn: $")) 
+        if self.balance >= amount:
+            self.balance -= amount
+            print("Amount Withdrawn: ${}".format(amount))
+            print("Your new balance is ${}".format(self.balance))
+        else: 
+            print("Insufficient balance.")
 
 #---DO NOT TOUCH THIS CODE---
 #hashing for passwords
@@ -100,11 +114,10 @@ def main():
         answer = int(answer)
 
         if (answer == 1): #log in
-            #TO DO: ask for login info
-
-            #create empty user variable
+            #ask for login info
+            email = input("Please enter the email associated with your account: ")
+            password = input("Please enter your password: ")
             user = {}
-            
             for account in BankAccount.accounts: #find user object in "database"
                 if account["email"] == email:
                     user = account["user"]
@@ -113,16 +126,19 @@ def main():
                 print("Invalid login credentials.")
                 
             else:
-                #TO DO: verify if password is correct -- stored password is hashed - must be checked with verifyPassword()
+                #verify if password is correct -- stored password is hashed - must be checked with verifyPassword()
                 stored_password = user.password
 
-                if (#replace with statement):
+                if (verifyPassword(stored_password, password)):
                     print("Sucessfully logged in.")
                     loggedIn = True
 
         elif(answer == 2): #create the user's account
-            #TO DO: get required attributes and create new BankAccount object set to user
-            
+            firstName = input("Please enter your first name: ")
+            lastName = input("Please enter your last name: ")
+            email = input("Please enter an email for your account: ")
+            password = input("Please enter your password: ")
+            user = BankAccount(firstName, lastName, email, password)
             print("Account created successfully.")
             loggedIn = True
             
@@ -140,19 +156,24 @@ def main():
             answer = input("What would you like to do? Please enter the option number: ")
             answer = int(answer)
 
-            #TO DO: complete statements
             if(answer == 1): #get account info
+                user.getAccountInfo()
 
             elif(answer == 2): #get balance
+                user.getBalance()
                 
             elif(answer == 3): #deposit
+                user.deposit()
                 
             elif(answer == 4): #withdraw
+                user.withdraw()
                 
             elif(answer == 5): #log out
 
-                #TO DO: store user info in the "database" -- this won't actually save
-                
+                #store user info in the "database" -- this won't actually save
+                for account in BankAccount.accounts:
+                    if account["email"] == email:
+                        account["user"] = user
 
                 #log out user and exit the program
                 print("Thank you for using the Deposit & Withdrawal Machine. Goodbye!")
