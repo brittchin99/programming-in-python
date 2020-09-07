@@ -1,5 +1,4 @@
 #PRACTICE: Tour and Tour Guide
-#Instructions: complete the methods for the given classes
 
 class Tour():
 
@@ -12,16 +11,12 @@ class Tour():
 
     def getTourInfo(self):
         '''prints the title, decription, location, and guide name for the tour'''
-        print("Tour name: {}".format(self.title))
-        print("Led by {}".format(self.guide))
-        print("Location: {}".format(self.location))
-        print("Description: {}".format(self.description))
+        print("Tour name:", self.title)
+        print("Led by {} {}".format(self.guide.firstName, self.guide.lastName))
+        print("Location:", self.location)
+        print("Description:", self.description)
 
-        #Tour name: ""
-        #Led by ""
-        #Location: ""
-        #Description: ""
-        
+
 class Guide():
 
     def __init__(self, firstName, lastName):
@@ -35,11 +30,8 @@ class Guide():
     def getGuideInfo(self):
         '''prints the first name, last name, and list of tours for the guide'''
         print("Name: {} {}".format(self.firstName, self.lastName))
-        print("Tours: {}".format(self.tours))
-        
-        #Name: ""
-        #Tours: []
-    
+        print("Tours:", self.tours)
+
     def addTour(self, title, description, location):
         '''instantiates a new tour and adds it to the guide's tour list
             the only parameters should be title, description, and location'''
